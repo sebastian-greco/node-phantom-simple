@@ -23,6 +23,10 @@ var queue = function (worker) {
   var _q = [];
   var running = false;
   var q = {
+    clean: function() {
+      _q=[];
+      running=false;
+   },
     push: function (obj) {
       _q.push(obj);
       q.process();
@@ -555,6 +559,7 @@ exports.create = function (options, callback) {
 
         // In case of SlimerJS `kill` will close only wrapper of xulrunner.
         // We should send `exit` command to process.
+        request_queue.clean();
         request_queue.push([ [ 0, 'exit', 0 ], callbackOrDummy(callback) ]);
       },
 
